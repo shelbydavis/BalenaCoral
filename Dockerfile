@@ -16,12 +16,16 @@ RUN install_packages unzip swig && \
 #    bash /tensorflow-${TensorFlow_Version}/tensorflow/lite/tools/make/download_dependencies.sh && \
 #    bash /tensorflow-${TensorFlow_Version}/tensorflow/lite/tools/make/build_rpi_lib.sh && \
     cd /tensorflow-${TensorFlow_Version}/tensorflow/lite/tools/pip_package && \
-    bash build_pip_package.sh
-#    python3.6 -m pip install --upgrade dist/tflite_runtime-${TensorFlow_Version}-cp36-cp36m-linux_armv7l.whl
+    bash build_pip_package.sh && \
+    python3.6 -m pip install --upgrade /tmp/tflite_pip/python/dist/tflite_runtime-${TensorFlow_Version}-cp36-cp36m-linux_aarch64.whl && \
+    cd / && rm -rf /tmp/tflite_pip /tensorflow-${TensorFlow_Version}
 
 # Download the tflite coral examples
 RUN mkdir coral && cd coral && \
     git clone https://github.com/google-coral/tflite.git && \
     bash /coral/tflite/python/examples/classification/install_requirements.sh
 
+WORKDIR /coral/tflite/python/examples/classification/
+
 ENTRYPOINT ["python3"]
+CMD ["classify_image.py", "--model", "models/mobilenet_v2_1.0_224_inat_bird_quant_edgetpu.tflite", "--labels", "models/inat_bird_labels.txt", "--input", "images/parrot.jpg"]
