@@ -17,7 +17,7 @@ RUN install_packages unzip swig && \
 #    bash /tensorflow-${TensorFlow_Version}/tensorflow/lite/tools/make/build_rpi_lib.sh && \
     cd /tensorflow-${TensorFlow_Version}/tensorflow/lite/tools/pip_package && \
     bash build_pip_package.sh && \
-    python3.6 -m pip install --upgrade /tmp/tflite_pip/python/dist/tflite_runtime-${TensorFlow_Version}-cp36-cp36m-linux_aarch64.whl && \
+    python3.6 -m pip install --upgrade /tmp/tflite_pip/python/dist/tflite_runtime-${TensorFlow_Version}-cp36-cp36m-linux_armv7l.whl && \
     cd / && rm -rf /tmp/tflite_pip /tensorflow-${TensorFlow_Version}
 
 # Download the tflite coral examples
